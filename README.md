@@ -36,7 +36,8 @@ The repository is organized by week, mirroring the structure of the course. Each
 ├── week5-symbol-tables-and-bsts
 │   ├── ...
 └── week6-balanced-trees-and-hashtables
-    └── ... ```
+    └── ... 
+```
 ---
 
 ## Topics Covered in Part I
