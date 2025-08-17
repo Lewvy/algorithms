@@ -19,6 +19,7 @@ My goal with this course is not just to understand the theoretical concepts but 
 
 The repository is organized by week, mirroring the structure of the course. Each folder contains the Go source code for the data structures and algorithms, along with any relevant notes.
 
+```text
 .
 ├── week1-union-find
 │   ├── notes.md
@@ -35,8 +36,7 @@ The repository is organized by week, mirroring the structure of the course. Each
 ├── week5-symbol-tables-and-bsts
 │   ├── ...
 └── week6-balanced-trees-and-hashtables
-├── ...
-
+    └── ... ```
 ---
 
 ## Topics Covered in Part I
