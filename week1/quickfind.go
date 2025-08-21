@@ -7,15 +7,16 @@ type UF interface {
 	Union(p, q int)
 	Connected(p, q int) bool
 	Count() int
+	Find() int
 }
 
-type QuickFindUF struct {
+type QuickFind struct {
 	Count int
 	N     int
 	Field []int
 }
 
-func (qf *QuickFindUF) Init(n int) (*QuickFindUF, error) {
+func (qf *QuickFind) New(n int) (*QuickFind, error) {
 	if n <= 0 {
 		return nil, errors.New("n can't be less than 1")
 	}
@@ -28,7 +29,12 @@ func (qf *QuickFindUF) Init(n int) (*QuickFindUF, error) {
 	}
 	return qf, nil
 }
-func (qf *QuickFindUF) Union(p int, q int) {
+
+func (qf *QuickFind) Find(i int) int {
+	return qf.Field[i]
+}
+
+func (qf *QuickFind) Union(p int, q int) {
 	if qf.Field[p] == qf.Field[q] {
 		return
 	}
@@ -43,9 +49,9 @@ func (qf *QuickFindUF) Union(p int, q int) {
 	}
 	qf.Count--
 }
-func (qf *QuickFindUF) Connected(p int, q int) bool {
+func (qf *QuickFind) Connected(p int, q int) bool {
 	return qf.Field[p] == qf.Field[q]
 }
-func (qf *QuickFindUF) CountIslands() int {
+func (qf *QuickFind) CountIslands() int {
 	return qf.Count
 }

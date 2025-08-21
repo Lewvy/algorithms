@@ -1,23 +1,23 @@
 package algorithms_test
 
 import (
-	"algorithms"
-	"reflect"
+	"algorithms/week1"
+	"github.com/go-test/deep"
 	"testing"
 )
 
-func TestQuickFindUF_Init(t *testing.T) {
+func TestQuickFind_New(t *testing.T) {
 	tests := []struct {
 		name    string
 		n       int
-		want    *algorithms.QuickFindUF
+		want    *algorithms.QuickFind
 		wantErr bool
 	}{
 		{
 			name: "Valid initialization with n=5",
 			n:    5,
 			// The expected struct should match the implementation: []int slice, and count/n fields set.
-			want: &algorithms.QuickFindUF{
+			want: &algorithms.QuickFind{
 				Field: []int{0, 1, 2, 3, 4},
 				Count: 5,
 				N:     5,
@@ -37,12 +37,12 @@ func TestQuickFindUF_Init(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			var qf algorithms.QuickFindUF
-			got, err := qf.Init(tt.n)
+			var qf algorithms.QuickFind
+			got, err := qf.New(tt.n)
 
 			// Check if an error occurred
 			if (err != nil) != tt.wantErr {
-				t.Errorf("Init() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("New() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			// If we expected an error, we can stop here.
@@ -50,24 +50,24 @@ func TestQuickFindUF_Init(t *testing.T) {
 				return
 			}
 			// The comparison was inverted. We want to error if they are NOT equal.
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Init() = %+v, want %+v", got, tt.want)
+			if deep.Equal(got, tt.want) != nil {
+				t.Errorf("New() = %+v, want %+v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestQuickFindUF_Union(t *testing.T) {
+func TestQuickFind_Union(t *testing.T) {
 	// We define an initial state for the UF struct to run the Union method on.
-	initialUF := func() *algorithms.QuickFindUF {
-		qf := &algorithms.QuickFindUF{}
-		qf.Init(10)
+	initialUF := func() *algorithms.QuickFind {
+		qf := &algorithms.QuickFind{}
+		qf.New(10)
 		return qf
 	}
 
 	tests := []struct {
 		name      string
-		initialQF *algorithms.QuickFindUF
+		initialQF *algorithms.QuickFind
 		p         int
 		q         int
 		wantField []int
@@ -83,7 +83,7 @@ func TestQuickFindUF_Union(t *testing.T) {
 		},
 		{
 			name: "Union on an already modified set",
-			initialQF: &algorithms.QuickFindUF{
+			initialQF: &algorithms.QuickFind{
 				Field: []int{0, 1, 8, 8, 1, 5, 6, 7, 8, 9}, // Start with 2->8, 3->8, 4->1
 				Count: 7,
 				N:     10,
@@ -95,7 +95,7 @@ func TestQuickFindUF_Union(t *testing.T) {
 		},
 		{
 			name: "Union of already connected elements",
-			initialQF: &algorithms.QuickFindUF{
+			initialQF: &algorithms.QuickFind{
 				Field: []int{0, 1, 1, 3, 4, 5, 6, 7, 8, 9}, // 2 is connected to 1
 				Count: 9,
 				N:     10,
@@ -110,7 +110,7 @@ func TestQuickFindUF_Union(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			qf := tt.initialQF
 			qf.Union(tt.p, tt.q)
-			if !reflect.DeepEqual(qf.Field, tt.wantField) {
+			if deep.Equal(qf.Field, tt.wantField) != nil {
 				t.Errorf("Union() resulted in Field = %v, want %v", qf.Field, tt.wantField)
 			}
 			if qf.Count != tt.wantCount {
@@ -120,8 +120,8 @@ func TestQuickFindUF_Union(t *testing.T) {
 	}
 }
 
-func TestQuickFindUF_Connected(t *testing.T) {
-	qf := &algorithms.QuickFindUF{
+func TestQuickFind_Connected(t *testing.T) {
+	qf := &algorithms.QuickFind{
 		Field: []int{0, 1, 1, 8, 8, 0, 0, 7, 8, 9}, // Components: {0,5,6}, {1,2}, {3,4,8}, {7}, {9}
 		Count: 5,
 		N:     10,
@@ -150,8 +150,8 @@ func TestQuickFindUF_Connected(t *testing.T) {
 	}
 }
 
-func TestQuickFindUF_Count(t *testing.T) {
-	qf, _ := (&algorithms.QuickFindUF{}).Init(10)
+func TestQuickFind_Count(t *testing.T) {
+	qf, _ := (&algorithms.QuickFind{}).New(10)
 
 	if qf.CountIslands() != 10 {
 		t.Errorf("Initial count should be 10, got %d", qf.CountIslands())
