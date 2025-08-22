@@ -3,7 +3,6 @@ package algorithms
 import "errors"
 
 type UF interface {
-	Init(n int) *UF
 	Union(p, q int)
 	Connected(p, q int) bool
 	Count() int
@@ -16,7 +15,8 @@ type QuickFind struct {
 	Field []int
 }
 
-func (qf *QuickFind) New(n int) (*QuickFind, error) {
+func NewQuickFind(n int) (*QuickFind, error) {
+	qf := &QuickFind{}
 	if n <= 0 {
 		return nil, errors.New("n can't be less than 1")
 	}

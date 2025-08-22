@@ -37,8 +37,7 @@ func TestQuickFind_New(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			var qf algorithms.QuickFind
-			got, err := qf.New(tt.n)
+			got, err := algorithms.NewQuickFind(tt.n)
 
 			// Check if an error occurred
 			if (err != nil) != tt.wantErr {
@@ -60,8 +59,8 @@ func TestQuickFind_New(t *testing.T) {
 func TestQuickFind_Union(t *testing.T) {
 	// We define an initial state for the UF struct to run the Union method on.
 	initialUF := func() *algorithms.QuickFind {
-		qf := &algorithms.QuickFind{}
-		qf.New(10)
+		qf, _ := algorithms.NewQuickFind(10)
+
 		return qf
 	}
 
@@ -151,7 +150,7 @@ func TestQuickFind_Connected(t *testing.T) {
 }
 
 func TestQuickFind_Count(t *testing.T) {
-	qf, _ := (&algorithms.QuickFind{}).New(10)
+	qf, _ := algorithms.NewQuickFind(10)
 
 	if qf.CountIslands() != 10 {
 		t.Errorf("Initial count should be 10, got %d", qf.CountIslands())
