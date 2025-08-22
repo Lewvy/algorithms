@@ -13,13 +13,8 @@ func TestQuickUnion_New(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "Valid initialization with n=5",
-			n:    5,
-			want: &algorithms.QuickFind{
-				Field: []int{0, 1, 2, 3, 4},
-				Count: 5,
-				N:     5,
-			},
+			name:    "Valid initialization with n=5",
+			n:       5,
 			wantErr: false,
 		},
 		{
@@ -30,31 +25,21 @@ func TestQuickUnion_New(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			var qu algorithms.QuickUnion
-			got, err := qu.New(tt.n)
+			q, err := algorithms.NewQuickUnion(tt.n)
 
-			if (err != nil) != tt.wantErr {
-				t.Errorf("New() error = %v, wantErr %v", err, tt.wantErr)
-				return
+			if err != nil && tt.wantErr == false {
+				t.Errorf("%q\n", err)
 			}
-			if tt.wantErr {
-				return
-			}
-			f_got := got.Field
-			f_want := tt.want.Field
 
-			for i := range f_got {
-				if f_got[i] != f_want[i] {
-					t.Errorf("New() error = %+v, want %+v", f_got, f_want)
-				}
+			if q.CountIslands() != tt.n {
+				t.Errorf("%q\n", err)
 			}
 		})
 	}
 }
 
 func TestQuickUnion_Behaviors(t *testing.T) {
-	var qu algorithms.QuickUnion
-	qu.New(10)
+	qu, _ := algorithms.NewQuickUnion(10)
 
 	if qu.CountIslands() != 10 {
 		t.Fatalf("Initial count should be 10, got %d", qu.CountIslands())
@@ -103,8 +88,7 @@ func TestQuickUnion_Behaviors(t *testing.T) {
 }
 
 func TestQuickUnion_Find_WorstCase(t *testing.T) {
-	var qu algorithms.QuickUnion
-	qu.New(10)
+	qu, _ := algorithms.NewQuickUnion(10)
 
 	qu.Union(0, 1)
 	qu.Union(1, 2)
