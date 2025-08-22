@@ -3,51 +3,49 @@ package algorithms
 import "errors"
 
 type QuickUnion struct {
-	Count int
-	N     int
-	Field []int
+	count int
+	n     int
+	field []int
 }
 
-func (qu *QuickUnion) New(n int) (*QuickUnion, error) {
+func NewQuickUnion(n int) (*QuickUnion, error) {
+	qu := &QuickUnion{}
 	if n <= 0 {
 		return nil, errors.New("n can't be less than 1")
 	}
-	qu.N = n
-	qu.Field = make([]int, n)
-	qu.Count = n
+	qu.n = n
+	qu.field = make([]int, n)
+	qu.count = n
 
-	for i := range qu.Field {
-		qu.Field[i] = i
+	for i := range qu.field {
+		qu.field[i] = i
 	}
 	return qu, nil
 }
 
 func (qu *QuickUnion) Find(i int) int {
 
-	for qu.Field[i] != i {
-		i = qu.Field[i]
+	for qu.field[i] != i {
+		i = qu.field[i]
 	}
 
 	return i
 }
 
 func (qu *QuickUnion) Union(p int, q int) {
-	if qu.Field[p] == qu.Field[q] {
-		return
-	}
 
 	i := qu.Find(p)
 	j := qu.Find(q)
 
-	qu.Field[i] = j
+	qu.field[i] = j
 
 	if i != j {
-		qu.Count--
+		qu.count--
 	}
 }
 func (qu *QuickUnion) Connected(p int, q int) bool {
 	return qu.Find(p) == qu.Find(q)
 }
 func (qu *QuickUnion) CountIslands() int {
-	return qu.Count
+	return qu.count
 }
